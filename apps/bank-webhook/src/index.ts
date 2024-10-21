@@ -7,6 +7,8 @@ app.use(express.json())
 app.post("/hdfcWebhook", async (req, res) => {
     //TODO: Add zod validation here?
     //TODO: HDFC bank should ideally send us a secret so we know this is sent by them
+
+   
     
     const paymentInformation: {
         token: string;
@@ -17,6 +19,9 @@ app.post("/hdfcWebhook", async (req, res) => {
         userId: req.body.user_identifier,
         amount: req.body.amount
     };
+    console.log("Request Body:", req.body);
+
+   
 
     try {
         await db.$transaction([
@@ -42,15 +47,20 @@ app.post("/hdfcWebhook", async (req, res) => {
         ]);
 
         res.json({
-            message: "Captured"
+            message: "Captured",
+            status: "Success"
+           
         })
     } catch(e) {
         console.error(e);
         res.status(411).json({
-            message: "Error while processing webhook"
+            message: "Error while processing webhook",
+            
         })
     }
 
 })
 
-app.listen(3003);
+app.listen(3003,() => {
+    console.log("Server is running on port 3003");
+});

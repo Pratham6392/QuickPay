@@ -30,6 +30,12 @@ export const onRampTransaction = async (amount: number, provider: string) => {
 
     return {
         message: "Transaction initiated",
+        amount: amount,
+        userId: Number(userId), // Ensure userId is a number
+        token: token
     }
 }
+
+
+
 
